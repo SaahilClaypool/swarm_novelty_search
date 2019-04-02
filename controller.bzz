@@ -1,6 +1,7 @@
 include "include/vec2.bzz"
+PATH = "test.csv"
 
-SCALER = 100
+SCALER = 100.00
 
 # sensors: 
 # S0: 1 if same robot, 0 if different robot or none
@@ -21,6 +22,7 @@ W1R = 0.3
 # WBR: weight for right wheel from bias
 WBL = 0.0
 WBR = 0.4
+f = io.fopen(PATH, "a")
 
 ### BUZZ FUNCTIONS ##
 function init() {
@@ -29,24 +31,43 @@ function init() {
     } else {
         set_leds(255, 0, 0)
     }
+    # io.fwrite(f, "id,vl,vr,px,py")
 }
 
 
 function step() {
-    neighbors.map(function (rid, data) {
+    var lws = 0.1
+    var rws = 0.1
+    neighbors.foreach(function (rid, data) {
         # log(id, " rid is ", rid, " at angle ", data.azimuth)
         if (data.azimuth > - 0.0872665) {
             if (data.azimuth < 0.0872665) {
                 if (rid % 2 == id % 2) {
                     log(id, " sees same in front: ", rid)
-                    set_wheels(SCALER * W0L, SCALER * W0R)
+                    lws = SCALER * W0L 
+                    rws = SCALER * W0R 
+                    log("lws ", lws, " rws ", rws, " scaler ", SCALER)
+                    set_wheels(lws, rws)
+                    var px = pose.position.x
+                    var py = pose.position.y
+                    io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
                 } else {
                     log(id, " sees different in front: ", rid)
-                    set_wheels(SCALER * W1L, SCALER * W1R)
+                    lws = SCALER * W1L 
+                    rws = SCALER * W1R 
+                    set_wheels(lws, rws)
+                    var px = pose.position.x
+                    var py = pose.position.y
+                    io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
                 }
             }
         } else {
-            set_wheels(SCALER * WBL, SCALER * WBR)
+            lws = SCALER * WBL 
+            rws = SCALER * WBR 
+            set_wheels(lws, rws)
+            var px = pose.position.x
+            var py = pose.position.y
+            io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
         }
     })
 }

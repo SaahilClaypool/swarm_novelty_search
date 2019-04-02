@@ -25,6 +25,7 @@
       <sensors>
         <range_and_bearing implementation="medium" medium="rab" show_rays="true" />
         <kheperaiv_light   implementation="rot_z_only" />
+        <positioning implementation="default"/>
       </sensors>
       <params bytecode_file="controller.bo" debug_file="controller.bdb">
         <wheel_turning hard_turn_angle_threshold="90"
@@ -102,9 +103,9 @@
   <!-- * Visualization * -->
   <!-- ****************** -->
   <visualization>
-    <qt-opengl>
+    <!-- <qt-opengl>
       <user_functions label="buzz_qt" />
-    </qt-opengl>
+    </qt-opengl> -->
   </visualization>
 
 </argos-configuration>
