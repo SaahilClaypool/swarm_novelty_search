@@ -1,6 +1,7 @@
 #! python3
 from typing import List
 from math import sqrt
+import os
 
 STEP_SIZE = .01
 PRIOR_WEIGHTS = []
@@ -74,13 +75,21 @@ class Observation:
         else:
             return self.measures
 
+    def run(self):
+        """
+        Run the simulation by creating the template file and executing it.
+        """
+        self.write_template()
+        inc = "BUZZ_INCLUDE_PATH=/usr/local/share/buzz"
+        os.system(f"{inc} bzzc controller.bzz")
+        os.system(f"{inc} argos3 -c layout.argos")
+        self.has_run = True
+
     def calcMeasures(self) -> List["Measure"]:
         """
-        TODO this should calculate the measures by
-        running argos / reading a csv or something
+        Run argos, and then read the corresponding csv
         """
-        self.has_run = True
-        # TODO: add running before this point (opening the csv)
+        self.run()
         filename = "data.csv"
         measures = []
         with open(filename, 'r') as datafile:
@@ -222,8 +231,9 @@ def search():
 
 
 if __name__ == "__main__":
-    search()
-    # obs = Observation([.1, .2, .3, .4, .5, .6])
+    # search()
+    obs = Observation([.1, .2, .3, .4, .5, .6])
+    obs.run()
     # print(len(obs.permute()))
     # obs.write_template()
     # print(obs.permute())
