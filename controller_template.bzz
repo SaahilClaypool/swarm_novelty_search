@@ -1,5 +1,7 @@
 include "include/vec2.bzz"
 
+SCALER = 100
+
 # sensors: 
 # S0: 1 if same robot, 0 if different robot or none
 # S1: 1 if different robot, 0 if same robot or none
@@ -22,10 +24,31 @@ WBR = {WBR}
 
 ### BUZZ FUNCTIONS ##
 function init() {
+    if (id % 2 == 0) {
+        set_leds(0, 255, 0)
+    } else {
+        set_leds(255, 0, 0)
+    }
 }
 
 
 function step() {
+    neighbors.map(function (rid, data) {
+        # log(id, " rid is ", rid, " at angle ", data.azimuth)
+        if (data.azimuth > - 0.0872665) {
+            if (data.azimuth < 0.0872665) {
+                if (rid % 2 == id % 2) {
+                    log(id, " sees same in front: ", rid)
+                    set_wheels(SCALER * W0L, SCALER * W0R)
+                } else {
+                    log(id, " sees different in front: ", rid)
+                    set_wheels(SCALER * W1L, SCALER * W1R)
+                }
+            }
+        } else {
+            set_wheels(SCALER * WBL, SCALER * WBR)
+        }
+    })
 }
 
 
