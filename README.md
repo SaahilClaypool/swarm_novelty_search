@@ -35,3 +35,9 @@ It will:
 5. Store and permute the novel populations
 
 
+
+# Scaling
+
+For our project, I think we might run into some scaling issues. If there are 6 weights for the neural net, then for each state (6 numbers), each value can either increase decrease or stay the same. So, 3 options. That means from any one state, there will be 3^6 possible 'steps' in all directions. 
+I think we can keep the top 3 or so most novel populations after each generation and permutate those. That means there will roughly be 2,000 populations to test per iteration (basically, 3 ^ N weights). 
+So, if each simulation takes 1 minute, each iteration will take around 1 day. 

@@ -1,0 +1,36 @@
+include "include/vec2.bzz"
+
+# sensors: 
+# S0: 1 if same robot, 0 if different robot or none
+# S1: 1 if different robot, 0 if same robot or none
+
+# Weights
+# W0L: weight for left wheel from sensor 1
+# W0R: weight for right wheel from sensor 1
+W0L = 0.1
+W0R = 0.2
+
+# W1L: weight for left wheel from sensor 2
+# W1R: weight for right wheel from sensor 2
+W1L = 0.3
+W1R = 0.4
+
+# WBL: weight for left wheel from bias
+# WBR: weight for right wheel from bias
+WBL = 0.5
+WBR = 0.6
+
+### BUZZ FUNCTIONS ##
+function init() {
+}
+
+
+function step() {
+}
+
+
+function reset() {
+}
+
+function destroy() {
+}
