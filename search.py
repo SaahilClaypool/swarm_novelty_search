@@ -1,5 +1,6 @@
 #! python3
 from typing import List
+from math import sqrt
 
 STEP_SIZE = .01
 PRIOR_WEIGHTS = []
@@ -16,14 +17,22 @@ class Measure:
     rotation: float
 
     def __init__(self, speed, momentum, variance, scatter, rotation):
-        self.speed = speed
-        self.momentum = momentum
-        self.variance = variance
-        self.scatter = scatter
-        self.rotation = rotation
+        self.speed = float(speed)
+        self.momentum = float(momentum)
+        self.variance = float(variance)
+        self.scatter = float(scatter)
+        self.rotation = float(rotation)
 
     def __repr__(self):
         return f"<{self.speed}, {self.momentum}, {self.variance}, {self.variance}, {self.scatter}, {self.rotation}>"
+
+    def distance(self, other: "Measure") -> float:
+        return sqrt((self.speed - other.speed) ** 2 +
+                    (self.momentum - other.momentum) ** 2 +
+                    (self.variance - other.variance) ** 2 +
+                    (self.scatter - other.scatter) ** 2 +
+                    (self.rotation - other.rotation) ** 2)
+
 
 class Observation:
     """
@@ -35,6 +44,7 @@ class Observation:
     def __init__(self, weights):
         self.weights = weights
         self.measures = []
+        self.has_run = False
 
     def __repr__(self):
         return f"Obs <{self.weights}>"
@@ -59,7 +69,7 @@ class Observation:
         if the measures haven't been calculated, calculate them
         else, return the measures
         """
-        if (len(self.measures) ==  0) :
+        if (len(self.measures) == 0):
             return self.calcMeasures()
         else:
             return self.measures
@@ -69,6 +79,8 @@ class Observation:
         TODO this should calculate the measures by
         running argos / reading a csv or something
         """
+        self.has_run = True
+        # TODO: add running before this point (opening the csv)
         filename = "data.csv"
         measures = []
         with open(filename, 'r') as datafile:
@@ -87,7 +99,8 @@ class Observation:
 
         perm_weights = []
         for weight in self.weights:
-            perm_weights.append([weight - STEP_SIZE, weight + STEP_SIZE, weight])
+            perm_weights.append(
+                [weight - STEP_SIZE, weight + STEP_SIZE, weight])
 
         permuted = Observation.permuteHelper(perm_weights)
         obs = list(map(
@@ -115,27 +128,41 @@ class Observation:
                     permuted.append([p] + permutation)
             return permuted
 
+    def distance(self, other: "Observation") -> float:
+        """
+        *from the paper*: To create our final behavior vector, we used a sliding window average of
+            each feature over the last 100 time steps. 
+        
+        I assume this is what they mean.
+        """
+        steps = 100
+        measures = self.measures[:min(steps, len(self.measures))]
+        other_measures = other.measures[:min(steps, len(self.measures))]
+        dist = 0
+        for m1, m2 in zip(measures, other_measures):
+            dist += m1.distance(m2)
+        dist /= steps
+        return 0
 
-def novelty(features: List["Measure"], archive: List["Observation"]) -> float:
+
+def novelty(population: Observation, archive: List["Observation"], k=15) -> float:
     """
-    TODO: calc novelty
-
     novelty = 1 / k * Sum i = 0..k (dist(b, Bi))
 
     returns:
-        float representing novelty, where 0 is least novel, 1 is most novel
-        TODO: maybe 1 shouldn't be the highest allowed value?
-
+        float representing novelty, taken as the average novelty to the 15 closest observations
     """
-    return 0
+    dists = [d for d in map(lambda obs: obs.distance(population), archive)]
+    dists.sort()
+    nov = sum(dists) / max(1, len(dists))
+    return nov
 
 
 def shouldAddToArchive(population: List["Observation"],
-                       features: List["Measure"],
+                       features: "Observation",
                        archive: List["Observation"]):
     """
-    TODO: determine if should archive
-    Add the behavior to the archive if it is sufficiently novel
+    Note: really we always want to archive according to the paper
     """
     return True
 
@@ -150,7 +177,7 @@ def updatePopulation(population: List["Observation"],
     """
     N = min(len(population), N)
 
-    novelty_pairs = [(p, novelty(p.getMeasures(), archive))
+    novelty_pairs = [(p, novelty(p, archive))
                      for p in population]
     # highest novelty (most novel) first
     novelty_pairs = sorted(
@@ -165,7 +192,8 @@ def updatePopulation(population: List["Observation"],
 
     # flatten
     new_pop = [pop for permutations in new_pop for pop in permutations]
-    new_pop = list(filter(lambda obs: not obs.weights in PRIOR_WEIGHTS, new_pop))
+    new_pop = list(
+        filter(lambda obs: not obs.weights in PRIOR_WEIGHTS, new_pop))
 
     return new_pop
 
@@ -180,12 +208,11 @@ def search():
     while(not stop):
         print(len(population))
         for p in population:
-            features = p.getMeasures()
+            _features = p.getMeasures()
             global PRIOR_WEIGHTS
             # It is important to keep track of the prior measurements to cut down on permutations...
             PRIOR_WEIGHTS.append(p.weights)
-            nov = novelty(features, archive)
-            if (shouldAddToArchive(p, features, archive)):
+            if (shouldAddToArchive(p, p, archive)):
                 archive.append(p)
         population = updatePopulation(population, archive)
         # TODO remove
@@ -202,4 +229,3 @@ if __name__ == "__main__":
     # print(obs.permute())
     # perm = Observation.permuteHelper([[.1, .3, .2], [.6, .8, .7]])
     # print(perm)
-
