@@ -1,1 +1,1 @@
-g++ -o logging_controller.so --shared logging_controller.cpp -fPIC
+CPATH="/usr/include/lua5.2/:/usr/local/include/argos3" g++ -o logging_controller.so --shared logging_controller.cpp -fPIC

@@ -231,6 +231,7 @@ def search():
 
 
 if __name__ == "__main__":
+    os.system("cd ./Logger/ && sh build.sh")
     # search()
     obs = Observation([.01,.01, .1, .3, 0.00, .4])
     obs.run()

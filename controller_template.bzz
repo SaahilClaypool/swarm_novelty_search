@@ -31,7 +31,6 @@ function init() {
     } else {
         set_leds(255, 0, 0)
     }
-    # io.fwrite(f, "id,vl,vr,px,py")
 }
 
 
@@ -43,22 +42,22 @@ function step() {
         if (data.azimuth > - 0.0872665) {
             if (data.azimuth < 0.0872665) {
                 if (rid % 2 == id % 2) {
-                    log(id, " sees same in front: ", rid)
+                    # log(id, " sees same in front: ", rid)
                     lws = SCALER * W0L 
                     rws = SCALER * W0R 
-                    log("lws ", lws, " rws ", rws, " scaler ", SCALER)
+                    # log("lws ", lws, " rws ", rws, " scaler ", SCALER)
                     set_wheels(lws, rws)
                     var px = pose.position.x
                     var py = pose.position.y
-                    io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
+                    # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
                 } else {
-                    log(id, " sees different in front: ", rid)
+                    # log(id, " sees different in front: ", rid)
                     lws = SCALER * W1L 
                     rws = SCALER * W1R 
                     set_wheels(lws, rws)
                     var px = pose.position.x
                     var py = pose.position.y
-                    io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
+                    # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
                 }
             }
         } else {
@@ -67,7 +66,7 @@ function step() {
             set_wheels(lws, rws)
             var px = pose.position.x
             var py = pose.position.y
-            io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
+            # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
         }
     })
 }
