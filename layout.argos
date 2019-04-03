@@ -37,6 +37,9 @@
 
   </controllers>
 
+  <loop_functions library="Logger/logging_controller.so" label="logging_controller">
+  </loop_functions>
+
   <!-- *********************** -->
   <!-- * Arena configuration * -->
   <!-- *********************** -->

@@ -1,0 +1,1 @@
+g++ -o logging_controller.so --shared logging_controller.cpp -fPIC
