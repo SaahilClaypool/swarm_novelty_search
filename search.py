@@ -2,6 +2,8 @@
 from typing import List
 from math import sqrt
 import os
+import pandas as pd
+import math
 
 STEP_SIZE = .01
 PRIOR_WEIGHTS = []
@@ -89,15 +91,9 @@ class Observation:
         """
         Run argos, and then read the corresponding csv
         """
-        self.run()
-        filename = "data.csv"
-        measures = []
-        with open(filename, 'r') as datafile:
-            import csv
-            dreader = csv.DictReader(datafile)
-            for row in dreader:
-                measures.append(Measure(**row))
-        self.measures = measures
+        if (not self.has_run):
+            self.run()
+        self.measures = clean_data("test.csv")
         return self.measures
 
     def permute(self) -> List["Observation"]:
@@ -229,14 +225,78 @@ def search():
         if (max_it <= 0):
             break
 
+def length(v):
+  return math.sqrt(dotproduct(v, v))
+
+def sub_pos(p, m):
+    return (p[0] - m[0],  p[1] - m[1])
+
+def dotproduct(v1, v2):
+  return sum((a*b) for a, b in zip(v1, v2))
+
+def angle(v1, v2):
+  return math.acos(dotproduct(v1, v2) / (length(v1) * length(v2)))
+
+def cross(a, b):
+    t = angle(a, b)
+    return length(a) * length(b) * math.sin(t)
+
+def clean_data(filename):
+    """
+    reads the given raw data file and returns a list of measurements (measurement class defined above)
+    Only takes that last 100 time steps
+    """
+    df: pd.DataFrame  = pd.read_csv(filename)
+    df = df.groupby("iteration")
+    # TODO: find the world size
+    R = 1
+    has_prev = False
+    prev = False
+    cleaned = []
+    for name, group in df:
+        group = group.reset_index()
+        if (not has_prev):
+            has_prev = True
+            prev = group
+            continue
+        group["x"] = list(zip(group["px"], group["py"]))
+        # TODO: this is bad, but might work
+        group["vx"] = group["px"] - prev["px"]
+        group["vy"] = group["px"] - prev["px"]
+        group["v"] = list(zip(group["vx"], group["vy"]))
+
+        m = (group["px"].mean(), group["py"].mean())
+        s = (group["vx"].mean(), group["vy"].mean())
+
+        avg_spd = group["v"].apply(length).mean()
+        scatter = group["x"].apply(lambda p: sub_pos(p, m)).apply(length).mean() / R **2
+
+        group["v_x"] = list(zip(group["v"], group["x"].apply(lambda x : sub_pos(x, m))))
+        ang_momentum = group["v_x"].apply(lambda vx: cross(vx[0], vx[1])).mean()
+
+        group["v_xd"] = group["v_x"].apply(lambda vx: (vx[0], vx[1], length(vx[1])))
+        group_rotation = group["v_xd"].apply(lambda vxd: cross(vxd[0], vxd[1]) / vxd[2]).mean()
+
+        mean_dist  = group["x"].apply(lambda p: sub_pos(p, m)).apply(length).mean()
+        radial_var  = group["x"].apply(lambda p: sub_pos(p, m)).apply(length).apply(lambda v: (v - mean_dist) ** 2).mean()
+        cleaned.append(Measure(avg_spd, ang_momentum, radial_var, scatter, group_rotation))
+
+    return cleaned[max(0, len(cleaned) - 100):]
+
+        # scatter = (group["x"].apply(lambda pos: length(sub_pos(pos, m)))).mean() / R**2
+        
+
 
 if __name__ == "__main__":
+    # cleaned = clean_data("test.csv")
     os.system("cd ./Logger/ && sh build.sh")
     # search()
     obs = Observation([.01,.01, .1, .3, 0.00, .4])
     obs.run()
+    print(obs.getMeasures())
     # print(len(obs.permute()))
     # obs.write_template()
     # print(obs.permute())
     # perm = Observation.permuteHelper([[.1, .3, .2], [.6, .8, .7]])
     # print(perm)
+

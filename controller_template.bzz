@@ -20,8 +20,11 @@ W1R = {W1R}
 
 # WBL: weight for left wheel from bias
 # WBR: weight for right wheel from bias
-WBL = {WBL}
-WBR = {WBR}
+# WBL = {WBL}
+# WBR = {WBR}
+# Default to moving slowly in circles
+WBL = .3
+WBR = .2
 f = io.fopen(PATH, "a")
 
 ### BUZZ FUNCTIONS ##
