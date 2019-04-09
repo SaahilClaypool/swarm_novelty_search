@@ -10,21 +10,21 @@ SCALER = 100.00
 # Weights
 # W0L: weight for left wheel from sensor 1
 # W0R: weight for right wheel from sensor 1
-W0L = 0.01
-W0R = 0.01
+W0L = 0.7000000000000001
+W0R = 0.7000000000000001
 
 # W1L: weight for left wheel from sensor 2
 # W1R: weight for right wheel from sensor 2
-W1L = 0.1
-W1R = 0.3
+W1L = 0.0
+W1R = 0.5
 
 # WBL: weight for left wheel from bias
 # WBR: weight for right wheel from bias
-# WBL = 0.0
-# WBR = 0.4
+# WBL = {WBL}
+# WBR = {WBR}
 # Default to moving slowly in circles
-WBL = .3
-WBR = .2
+WBL = 0.3
+WBR = 0.2
 f = io.fopen(PATH, "a")
 
 ### BUZZ FUNCTIONS ##
@@ -48,7 +48,7 @@ function step() {
                     # log(id, " sees same in front: ", rid)
                     lws = SCALER * W0L 
                     rws = SCALER * W0R 
-                    # log("lws ", lws, " rws ", rws, " scaler ", SCALER)
+                    # log("set wheels next lws ", lws, " rws ", rws, " scaler ", SCALER)
                     set_wheels(lws, rws)
                     var px = pose.position.x
                     var py = pose.position.y
@@ -60,15 +60,12 @@ function step() {
                     set_wheels(lws, rws)
                     var px = pose.position.x
                     var py = pose.position.y
-                    # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
                 }
             }
         } else {
-            lws = SCALER * WBL 
-            rws = SCALER * WBR 
+            lws = SCALER * W1L 
+            rws = SCALER * W1R 
             set_wheels(lws, rws)
-            var px = pose.position.x
-            var py = pose.position.y
             # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
         }
     })

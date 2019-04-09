@@ -7,13 +7,13 @@
 LOGGING_CONTROLLER::LOGGING_CONTROLLER() : _step_count(0) {}
 
 void LOGGING_CONTROLLER::PostStep() {
-  if (this->_step_count > 300) {
+  if (this->_step_count > 2000) {
     fclose(this->_output_file);
     exit(1);
   } else {
     this->_step_count++;
     if (this->_step_count % 1 == 0) {
-      printf("%d\n", this->_step_count);
+      // printf("%d\n", this->_step_count);
       auto ents = this->GetSpace().GetEntityVector();
       for (auto ent : ents) {
         if (auto kep = dynamic_cast<CKheperaIVEntity *>(ent)) {
