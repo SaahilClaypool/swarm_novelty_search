@@ -1,0 +1,2 @@
+1. Floor small values to zero, large values to 1 (or do rounding)
+2. Move this to a server (13 iterations of 150 over night)

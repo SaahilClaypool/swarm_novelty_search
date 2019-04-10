@@ -1,12 +1,13 @@
 #! python3
-from typing import List
-from math import sqrt
-import os
-import pandas as pd
 import math
+import os
+from math import sqrt
+from typing import List
+
+import pandas as pd
 
 NUM_BOTS = 20
-STEP_SIZE = .10
+STEP_SIZE = .01
 PRIOR_WEIGHTS = []
 
 
@@ -49,7 +50,7 @@ class Observation:
     measures: List["Measure"]
 
     def __init__(self, weights):
-        self.weights = weights
+        self.weights = [round(w, 2) for w in weights]
         self.measures = []
         self.has_run = False
 
@@ -89,7 +90,7 @@ class Observation:
         self.write_template()
         inc = "BUZZ_INCLUDE_PATH=/usr/local/share/buzz QT_QPA_PLATFORM=xcb"
         os.system(f"{inc} bzzc controller.bzz")
-        os.system(f"{inc} argos3 -c layout.argos")
+        os.system(f"{inc} argos3 -c layout.argos > /dev/null")
         self.has_run = True
         self.calcMeasures()
 
@@ -120,15 +121,19 @@ class Observation:
             lambda weights: Observation(weights),
             filter(lambda permutation: permutation != self.weights, permuted)))
 
+        obs = list(
+            filter(lambda a_obs:
+                   all(map(lambda val: val >= 0 and val <= 1, a_obs.weights)),
+                   obs))
+
         return obs
 
     def segregation(self) -> float:
         """
         Get the segregation for this given measure
-        Defined as: std deviation of group distance / total devation of distance 
+        Defined as: std deviation of group distance / total devation of distance
         """
         last: "Measure" = self.measures[-1]
-        print("last measure: ", last)
         return 1 / ((last.dist_dev1 / last.dist_dev + last.dist_dev2 / last.dist_dev2) / 2)
 
     @staticmethod
@@ -224,9 +229,11 @@ def most_segregated(archive: List["Observation"]):
     """
     TODO: Given the archive, find the most segregated observation. 
     """
-    sorted_seg = sorted(archive, key=lambda obs: obs.segregation(), reverse=True)
+    sorted_seg = sorted(
+        archive, key=lambda obs: obs.segregation(), reverse=True)
     for i in range(100):
-        print(f"segregation for: {sorted_seg[i]} is {sorted_seg[i].segregation()}")
+        print(
+            f"segregation for: {sorted_seg[i]} is {sorted_seg[i].segregation()}")
     return sorted_seg[0]
 
 
@@ -237,11 +244,14 @@ def search():
     archive = []
     print(seed)
     stop = False
-    max_it = 2
+    it = 0
+    max_it = 100
     while(not stop):
-        print(f"population length: ", len(population))
-        max_pop = 3
-        for p in population:
+        print(f"iteration: {it}, population len: {len(population)}")
+        it += 1
+        max_pop = -1
+        for idx, p in enumerate(population):
+            print(f"\t{idx}: Running {p}")
             _features = p.getMeasures()
             global PRIOR_WEIGHTS
             # It is important to keep track of the prior measurements to cut down on permutations...
@@ -261,6 +271,7 @@ def search():
 
     seg = most_segregated(archive)
     print("most segregated\n", seg)
+
 
 def length(v):
     return math.sqrt(dotproduct(v, v))
@@ -353,8 +364,9 @@ def clean_data(filename, last_n=100):
 
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
-    search()
-    # obs = Observation([.7, .7, .0, .5])
+    # search()
+    obs = Observation([.0, .0, .0, .0])
+    print(obs.permute())
     # obs.run()
     # print(obs.getMeasures()[-1])
     # print(len(obs.permute()))
