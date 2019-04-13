@@ -238,26 +238,28 @@ def most_segregated(archive: List["Observation"]):
 
 
 def search():
+    print("iteration, population, weights, segregation")
     # seed = Observation([.1, .2, .3, .4, .5, .6])
     seed = Observation([0.8, 0.8, 0.1, .5])
     population = [seed]
     archive = []
-    print(seed)
     stop = False
     it = 0
     max_it = 100
+    real_max_it = 100
     while(not stop):
-        print(f"iteration: {it}, population len: {len(population)}")
+        it = real_max_it - max_it
         it += 1
         max_pop = -1
         for idx, p in enumerate(population):
-            print(f"\t{idx}: Running {p}")
             _features = p.getMeasures()
             global PRIOR_WEIGHTS
             # It is important to keep track of the prior measurements to cut down on permutations...
             PRIOR_WEIGHTS.append(p.weights)
             if (shouldAddToArchive(p, p, archive)):
                 archive.append(p)
+            seg = p.segregation()
+            print(f"{it}, {idx}, {p.weights}, {seg}")
 
             max_pop -= 1
             if (max_pop == 0):
@@ -364,9 +366,9 @@ def clean_data(filename, last_n=100):
 
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
-    # search()
-    obs = Observation([.0, .0, .0, .0])
-    print(obs.permute())
+    search()
+    # obs = Observation([.0, .0, .0, .0])
+    # print(obs.permute())
     # obs.run()
     # print(obs.getMeasures()[-1])
     # print(len(obs.permute()))
