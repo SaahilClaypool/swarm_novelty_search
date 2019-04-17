@@ -134,7 +134,8 @@ class Observation:
         Defined as: std deviation of group distance / total devation of distance
         """
         last: "Measure" = self.measures[-1]
-        return 1 / ((last.dist_dev1 / last.dist_dev + last.dist_dev2 / last.dist_dev2) / 2)
+        print(last.dist_dev1, last.dist_dev, last.dist_dev2)
+        return 1 / ((last.dist_dev1 / last.dist_dev + last.dist_dev2 / last.dist_dev) / 2)
 
     @staticmethod
     def permuteHelper(permuted_weights: List[List[float]]):
@@ -366,10 +367,13 @@ def clean_data(filename, last_n=100):
 
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
-    search()
-    # obs = Observation([.0, .0, .0, .0])
+    obs = Observation([.3, .3, .3, .3])
+    # obs = Observation([.61, .59, .01, .3])
+    obs.run()
+    obs.measures = clean_data("test.csv")
+    obs.getMeasures()
+    print("segregation is ", obs.segregation())
     # print(obs.permute())
-    # obs.run()
     # print(obs.getMeasures()[-1])
     # print(len(obs.permute()))
     # print(len(obs.permute()))
