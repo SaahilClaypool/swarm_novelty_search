@@ -15,10 +15,10 @@ Currently, we have done the following:
 
     This differs slightly from our proposed design - initially, we expected to use 3 inputs and 6 weights to control our bots. 
     But, we found that we ran into too much exponential complexity when running this novelty serach for this to be feasible. 
-    If we used 6 weights to control each robot, then at each generation, if we select the most fit robot to permutate, then we would have to creat the following combinations:
+    If we used 6 weights to control each robot, then at each generation, if we select the most fit robot to permutate, then we would have to create the following combinations:
     Each weight can either increase, decrease, or stay the same (3 possibilities). 
     We can do that for each of the 6 weights, so from a single robot, there are $3^6$ possible combinations, or 729 mutations (728 if we ignore the one where all the weights stay the same). 
-    This is infeasible four us to test - each simulation + parsing took roughly 30 seconds, so each step would take roughly 6 hours for us to step from a *single* permutation of a set of weights. 
+    This large amount of combinations is infeasible for us to test - each simulation + parsing took roughly 30 seconds, so each step would take roughly 6 hours for us to step from a *single* permutation of a set of weights. 
 
     To reduce complexity, we instead decided to use 4 weights.
     We hypothesize that to perform segregation, the bots would turn away from bots of the other kind, and thus they would only see the bots of the other kind for a short period of time. 
@@ -30,14 +30,14 @@ Currently, we have done the following:
 
     We added loop functions to the argos simulation to record the location of each bot at each time step, and write this to a csv. 
     After each generation, our program reads this csv and calculates the metrics (mean distance ,radial variance, group rotation, angular momentum, scatter and average speed, identical to the Brown et. al.) for that set of weights. 
-    We also calculate the standard deviation of the inter and intra group distance for each bot to use for segregation evaluation, which we will discuss below. 
+    We also calculate the standard deviation of the inter- and intra-group distance for each bot to use for segregation evaluation, which we will discuss below. 
 
-4. Create a metric of segregation.
+4. Created a metric of segregation.
 
-    We use a very simple metric of segregation: the ratio of the standard deviation of the distance to the mediod of each group over the total standard deviation to the mediod of the total population. 
+    We use a very simple metric of segregation: the ratio of the standard deviation of the distance to the medoid of each group over the total standard deviation to the medoid of the total population. 
     The thinking is as follows: if the bots are not segregated by type, then their position should *not* be dependent on their type.
-    Thus if we take the mediod of each group and calculate the standard deviation of the bots to that mediod, it should be roughly identical to the standard deviation of distances to the global mediod (without calculating by group). 
-    And, if the bots *are* highly segregated, then the intra-group standard deviation should be quite low (the bots of the same type are clustered together) and the inter-group standard deviation of distance to the mediod should be high as the two types should be far away from eachother, and the global mediod should be far from both groups.
+    Thus if we take the medoid of each group and calculate the standard deviation of the bots to that medoid, it should be roughly identical to the standard deviation of distances to the global medoid (without calculating by group). 
+    And, if the bots *are* highly segregated, then the intra-group standard deviation should be quite low (the bots of the same type are clustered together) and the inter-group standard deviation of distance to the medoid should be high as the two types should be far away from each other, and the global medoid should be far from both groups.
 
     To summarize, we use this formula, taking the inverse so we are maximizing this heuristic (highly segregated have higher values):
 
