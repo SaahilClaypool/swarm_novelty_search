@@ -10,13 +10,13 @@ SCALER = 100.00
 # Weights
 # W0L: weight for left wheel from sensor 1
 # W0R: weight for right wheel from sensor 1
-W0L = 0.3
-W0R = 0.3
+W0L = 0.79
+W0R = 0.79
 
 # W1L: weight for left wheel from sensor 2
 # W1R: weight for right wheel from sensor 2
-W1L = 0.3
-W1R = 0.3
+W1L = 0.11
+W1R = 0.5
 
 # WBL: weight for left wheel from bias
 # WBR: weight for right wheel from bias

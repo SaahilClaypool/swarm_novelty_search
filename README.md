@@ -41,3 +41,28 @@ It will:
 For our project, I think we might run into some scaling issues. If there are 6 weights for the neural net, then for each state (6 numbers), each value can either increase decrease or stay the same. So, 3 options. That means from any one state, there will be 3^6 possible 'steps' in all directions. 
 I think we can keep the top 3 or so most novel populations after each generation and permutate those. That means there will roughly be 2,000 populations to test per iteration (basically, 3 ^ N weights). 
 So, if each simulation takes 1 minute, each iteration will take around 1 day. 
+
+# Analysis
+
+The most important part of this project is analysis. 
+Below are my proposed measures: 
+
+0. Polynomial time constraints
+
+1. Confirmation of clustering metric
+
+    We create a custom clustering method, so we need to visualize how well it works.
+    First, just run argos with the discovered weights. 
+    Second, great a matplotlib scatter / line plot of location with opacity representing the time step (temporal level). 
+
+2. Clustering over time
+
+    Plot cluster level per time
+
+3. Fitness search vs novelty search
+
+    Plot segregation per time
+
+4. Does this work with more bots?
+
+    Take the discovered parameters, run them with more bots

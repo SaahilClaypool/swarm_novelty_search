@@ -1,5 +1,9 @@
 # Status Report: Group 3
 
+- Saahil Claypool
+- Albert Enyedy
+- Richard Hosea
+
 We have finished the novelty search aspect of our project. 
 Currently, we have done the following:
 
@@ -14,7 +18,7 @@ Currently, we have done the following:
 2. Changed the weights from 6 to 4
 
     This differs slightly from our proposed design - initially, we expected to use 3 inputs and 6 weights to control our bots. 
-    But, we found that we ran into too much exponential complexity when running this novelty serach for this to be feasible. 
+    But, we found that we ran into too much exponential complexity when running this novelty search for this to be feasible. 
     If we used 6 weights to control each robot, then at each generation, if we select the most fit robot to permutate, then we would have to create the following combinations:
     Each weight can either increase, decrease, or stay the same (3 possibilities). 
     We can do that for each of the 6 weights, so from a single robot, there are $3^6$ possible combinations, or 729 mutations (728 if we ignore the one where all the weights stay the same). 
@@ -52,9 +56,9 @@ Currently, we have done the following:
 
     ![most segregated](Results/most_seg.png)
 
-    We confirm that non-segregated populations do have a lower score by using the weights `[.3, .3, .3, .3]`, which should results in bots being far from eachother and not grouped by cluster. 
+    We confirm that non-segregated populations do have a lower score by using the weights `[.3, .3, .3, .3]`, which should results in bots being far from each other and not grouped by cluster. 
     This achieved a segregation score of .95, which is as predicted lower than the most segregated population. 
 
     ![least segregated](Results/least_seg.png)
 
-    More comprehensive reuslts will be shown in the final paper.
+    More comprehensive results will be shown in the final paper.

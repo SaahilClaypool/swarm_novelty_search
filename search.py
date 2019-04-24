@@ -101,6 +101,7 @@ class Observation:
         if (not self.has_run):
             self.run()
             self.measures = clean_data("test.csv")
+            # os.system(f"cp test.csv 'Data/{self.weights}.csv'")
         return self.measures
 
     def permute(self, permute_number=4) -> List["Observation"]:
@@ -134,7 +135,6 @@ class Observation:
         Defined as: std deviation of group distance / total devation of distance
         """
         last: "Measure" = self.measures[-1]
-        print(last.dist_dev1, last.dist_dev, last.dist_dev2)
         return 1 / ((last.dist_dev1 / last.dist_dev + last.dist_dev2 / last.dist_dev) / 2)
 
     @staticmethod
@@ -172,6 +172,8 @@ class Observation:
         dist /= steps
         return 0
 
+def fitness(population: Observation, archive: List["Observation"], k=15) -> float:
+    return population.segregation()
 
 def novelty(population: Observation, archive: List["Observation"], k=15) -> float:
     """
@@ -205,8 +207,11 @@ def updatePopulation(population: List["Observation"],
     """
     N = min(len(population), N)
 
-    novelty_pairs = [(p, novelty(p, archive))
+    novelty_pairs = [(p, fitness(p, archive))
                      for p in population]
+
+    # novelty_pairs = [(p, novelty(p, archive))
+                     # for p in population]
     # highest novelty (most novel) first
     novelty_pairs = sorted(
         novelty_pairs, key=lambda pair: pair[1], reverse=True)
@@ -367,12 +372,13 @@ def clean_data(filename, last_n=100):
 
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
-    obs = Observation([.3, .3, .3, .3])
+    search()
+    # obs = Observation([.3, .3, .3, .3])
     # obs = Observation([.61, .59, .01, .3])
-    obs.run()
-    obs.measures = clean_data("test.csv")
-    obs.getMeasures()
-    print("segregation is ", obs.segregation())
+    # obs.run()
+    # obs.measures = clean_data("test.csv")
+    # obs.getMeasures()
+    # print("segregation is ", obs.segregation())
     # print(obs.permute())
     # print(obs.getMeasures()[-1])
     # print(len(obs.permute()))
