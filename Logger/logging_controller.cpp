@@ -7,7 +7,7 @@
 LOGGING_CONTROLLER::LOGGING_CONTROLLER() : _step_count(0) {}
 
 void LOGGING_CONTROLLER::PostStep() {
-  if (this->_step_count > 2000) {
+  if (this->_step_count > 5000) {
     fclose(this->_output_file);
     exit(1);
   } else {

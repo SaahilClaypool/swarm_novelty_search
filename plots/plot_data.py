@@ -22,6 +22,7 @@ for id, bot in bots:
     c = "blue"
     if (id % 2 == 1):
         c = "green"
-    ax.scatter(x, y, color=c, alpha=.05)
+    size = [600 * (i)**2 / its ** 2 for i in range(its)]
+    ax.scatter(x, y, color=c, s=size, alpha=.1)
 
 plt.show()

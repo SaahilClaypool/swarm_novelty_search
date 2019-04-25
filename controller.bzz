@@ -10,21 +10,21 @@ SCALER = 100.00
 # Weights
 # W0L: weight for left wheel from sensor 1
 # W0R: weight for right wheel from sensor 1
-W0L = 0.79
-W0R = 0.79
+W0L = 0.61
+W0R = 0.59
 
 # W1L: weight for left wheel from sensor 2
 # W1R: weight for right wheel from sensor 2
-W1L = 0.11
-W1R = 0.5
+W1L = 0.01
+W1R = 0.3
 
 # WBL: weight for left wheel from bias
 # WBR: weight for right wheel from bias
-# WBL = {WBL}
-# WBR = {WBR}
+WBL = 0.01
+WBR = 0.3
 # Default to moving slowly in circles
-WBL = 0.3
-WBR = 0.2
+# WBL = 0.3
+# WBR = 0.2
 f = io.fopen(PATH, "a")
 
 ### BUZZ FUNCTIONS ##
@@ -63,8 +63,8 @@ function step() {
                 }
             }
         } else {
-            lws = SCALER * W1L 
-            rws = SCALER * W1R 
+            lws = SCALER * WBL 
+            rws = SCALER * WBR 
             set_wheels(lws, rws)
             # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
         }

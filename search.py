@@ -388,11 +388,11 @@ def clean_data(filename, last_n=100):
 
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
-    search()
+    # search()
     # obs = Observation([.3, .3, .3, .3])
-    # obs = Observation([.61, .59, .01, .3])
+    obs = Observation([.61, .59, .01, .3, .01, .3])
+    obs.run()
     # obs.permute()
-    # obs.run()
     # obs.measures = clean_data("test.csv")
     # obs.getMeasures()
     # print("segregation is ", obs.segregation())

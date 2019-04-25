@@ -7,7 +7,7 @@
   <framework>
     <system threads="0" />
     <experiment length="0"
-                ticks_per_second="10"
+                ticks_per_second="100"
                 random_seed="123" />
   </framework>
 
@@ -106,9 +106,9 @@
   <!-- * Visualization * -->
   <!-- ****************** -->
   <visualization>
-      <!--<qt-opengl> -->
-       <!--<user_functions label="buzz_qt" /> -->
-     <!--</qt-opengl>  -->
+      <qt-opengl> 
+       <user_functions label="buzz_qt" /> 
+     </qt-opengl>  
   </visualization>
 
 </argos-configuration>
