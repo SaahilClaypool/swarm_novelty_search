@@ -66,7 +66,8 @@ class Observation:
                 .replace("{W1L}", str(self.weights[2]))\
                 .replace("{W1R}", str(self.weights[3]))
             if (len(self.weights) > 4):
-                replaced = replaced.replace("{WBL}", str(self.weights[4]))\
+                replaced = replaced\
+                    .replace("{WBL}", str(self.weights[4]))\
                     .replace("{WBR}", str(self.weights[5]))
             with open(output_filename, 'w') as outfile:
                 outfile.write(replaced)
@@ -105,6 +106,21 @@ class Observation:
         return self.measures
 
     def permute(self, permute_number=4) -> List["Observation"]:
+        """
+        Rather than calculate all the permutaitons, just calculate up and down for each value
+        """
+        new_obs = []
+        for idx, weight in enumerate(self.weights):
+            larger = weight + STEP_SIZE
+            smaller = weight - STEP_SIZE
+            larger_w = self.weights[:idx] + [larger] + self.weights[idx + 1:]
+            smaller_w = self.weights[:idx] + [smaller] + self.weights[idx + 1:]
+            new_obs.append(Observation(larger_w))
+            new_obs.append(Observation(smaller_w))
+        return new_obs
+
+
+    def permute_real(self, permute_number=4) -> List["Observation"]:
         """
         permute number controls how many weights to permute. 
         By default, we don't permute the the last 2 weights (the bias terms)
@@ -246,7 +262,7 @@ def most_segregated(archive: List["Observation"]):
 def search():
     print("iteration, population, weights, segregation")
     # seed = Observation([.1, .2, .3, .4, .5, .6])
-    seed = Observation([0.8, 0.8, 0.1, .5])
+    seed = Observation([0.5, 0.5, 0.5, .5, .5, .5])
     population = [seed]
     archive = []
     stop = False
@@ -375,6 +391,7 @@ if __name__ == "__main__":
     search()
     # obs = Observation([.3, .3, .3, .3])
     # obs = Observation([.61, .59, .01, .3])
+    # obs.permute()
     # obs.run()
     # obs.measures = clean_data("test.csv")
     # obs.getMeasures()

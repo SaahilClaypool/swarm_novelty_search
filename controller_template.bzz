@@ -20,11 +20,11 @@ W1R = {W1R}
 
 # WBL: weight for left wheel from bias
 # WBR: weight for right wheel from bias
-# WBL = {WBL}
-# WBR = {WBR}
+WBL = {WBL}
+WBR = {WBR}
 # Default to moving slowly in circles
-WBL = 0.3
-WBR = 0.2
+# WBL = 0.3
+# WBR = 0.2
 f = io.fopen(PATH, "a")
 
 ### BUZZ FUNCTIONS ##
@@ -63,8 +63,8 @@ function step() {
                 }
             }
         } else {
-            lws = SCALER * W1L 
-            rws = SCALER * W1R 
+            lws = SCALER * WBL 
+            rws = SCALER * WBR 
             set_wheels(lws, rws)
             # io.fwrite(f, id, ",",lws, ",", rws, ",", px, ",", py)
         }

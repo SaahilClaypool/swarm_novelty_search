@@ -55,9 +55,11 @@ Below are my proposed measures:
     First, just run argos with the discovered weights. 
     Second, great a matplotlib scatter / line plot of location with opacity representing the time step (temporal level). 
 
-2. Clustering over time
+2. Segregation Clustering over time
 
-    Plot cluster level per time
+    - Plot cluster level per time
+    - Check if swarm size impacts
+        - graph that 
 
 3. Fitness search vs novelty search
 
@@ -66,3 +68,7 @@ Below are my proposed measures:
 4. Does this work with more bots?
 
     Take the discovered parameters, run them with more bots
+
+6. Graphs from the paper (ang momentum by speed)
+
+7. (future) Can we get singlec cluster still? 
