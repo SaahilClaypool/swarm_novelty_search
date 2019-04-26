@@ -44,7 +44,7 @@ def clean_data(filename, last_n=5000):
     Only takes that last 100 time steps
     """
     df: pd.DataFrame = pd.read_csv(filename).tail(last_n * NUM_BOTS)
-    df = df[df["iteration"] % 100 == 0]
+    df = df[df["iteration"] % 10 == 0]
     df = df.groupby("iteration")
     # TODO: find the world size
     R = 2 * 2**.5
@@ -98,11 +98,11 @@ def clean_data(filename, last_n=5000):
         m2 = (group2["px"].mean(), iteration["py"].mean())
         dist_dev2 = group2["x"].apply(lambda x: length(sub_pos(x, m2))).std()
 
-        cleaned.append([avg_spd, ang_momentum,
+        cleaned.append([name, avg_spd, ang_momentum,
                         radial_var, scatter, group_rotation,
                         dist_dev, dist_dev1, dist_dev2])
 
-    cleaned = pd.DataFrame(data=cleaned, columns=["avg_spd", "ang_momentum", "radial_var", "scatter", "group_rotation", "dist_dev", "dist_dev1", "dist_dev2"])
+    cleaned = pd.DataFrame(data=cleaned, columns=["iteration", "avg_spd", "ang_momentum", "radial_var", "scatter", "group_rotation", "dist_dev", "dist_dev1", "dist_dev2"])
     # cleaned["segregation"] = cleaned.apply(lambda row: 1 / ((row.dist_dev1 / row.dist_dev + row.dist_dev2 / row.dist_dev) / 2), axis=1)
     cleaned["segregation"] = cleaned.apply(lambda row: - ((row.dist_dev1 / row.dist_dev + row.dist_dev2 / row.dist_dev) / 2), axis=1)
     cleaned.to_csv(filename[:-4]+"_clean.csv")
