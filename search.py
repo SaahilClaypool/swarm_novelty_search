@@ -276,7 +276,6 @@ def search():
         for idx, p in enumerate(population):
             _features = p.getMeasures()
             global PRIOR_WEIGHTS
-            # It is important to keep track of the prior measurements to cut down on permutations...
             PRIOR_WEIGHTS.append(p.weights)
             if (shouldAddToArchive(p, p, archive)):
                 archive.append(p)
@@ -288,7 +287,6 @@ def search():
                 break
 
         population = updatePopulation(population, archive)
-        # TODO remove
         max_it -= 1
         if (max_it == 0):
             break

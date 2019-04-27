@@ -31,4 +31,5 @@ for it, data in its:
     y.append(max_seg)
 
 plt.scatter(x, y)
+plt.savefig("/home/saahil/Documents/swarm_intelligence/swarm_novelty_search/plots/paper_imgs/fitness_search.png")
 plt.show()
