@@ -9,6 +9,7 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="./path.js"></script>
     <script src="./seg.js"></script>
+    <script src="./play.js"></script>
     <style>
         .slidercontainer {
             width: 1000px;
@@ -27,12 +28,12 @@
             stroke-width: 1;
         }
         .dev1 {
-            fill: red;
+            fill: blue;
             stroke: none;
             stroke-width: 1;
         }
         .dev2 {
-            fill: blue;
+            fill: red;
             stroke: none;
             stroke-width: 1;
         }
@@ -41,8 +42,8 @@
         <h1>Segregation</h1>
         <svg id="vis" height=500 width=1000></svg>
         <svg id="seg" height=500 width=500></svg>
-        <div class="slidercontainer">
-            <input type="range" min="1" max="100" value="50" class="slider" id="slider">
+        <div id="slidercontainer" class="slidercontainer">
+            <input type="range" min="1" max="2000" value="50" class="slider" id="slider">
         </div>
     </body>
 </html>

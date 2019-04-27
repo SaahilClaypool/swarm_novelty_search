@@ -92,11 +92,19 @@ def clean_data(filename, last_n=5000):
         group2 = iteration[iteration.apply(
             lambda bot: bot["id"] % 2 == 1, axis=1)]
 
-        dist_dev = iteration["x"].apply(lambda x: length(sub_pos(x, m))).std()
+        # dist_dev = iteration["x"].apply(lambda x: length(sub_pos(x, m))).std()
+        # m1 = (group1["px"].mean(), iteration["py"].mean())
+        # dist_dev1 = group1["x"].apply(lambda x: length(sub_pos(x, m1))).std()
+        # m2 = (group2["px"].mean(), iteration["py"].mean())
+        # dist_dev2 = group2["x"].apply(lambda x: length(sub_pos(x, m2))).std()
+        dist_dev_m = iteration["x"].apply(lambda x: length(sub_pos(x, m))).mean()
+        dist_dev = iteration["x"].apply(lambda x: abs(length(sub_pos(x, m)) - dist_dev_m)).sum() / iteration["x"].count()
         m1 = (group1["px"].mean(), iteration["py"].mean())
-        dist_dev1 = group1["x"].apply(lambda x: length(sub_pos(x, m1))).std()
+        dist_dev1_m = group1["x"].apply(lambda x: length(sub_pos(x, m1))).mean()
+        dist_dev1 = group1["x"].apply(lambda x: abs(length(sub_pos(x, m1)) - dist_dev1_m)).sum() / group1["x"].count()
         m2 = (group2["px"].mean(), iteration["py"].mean())
-        dist_dev2 = group2["x"].apply(lambda x: length(sub_pos(x, m2))).std()
+        dist_dev2_m = group2["x"].apply(lambda x: length(sub_pos(x, m2))).mean()
+        dist_dev2 = group2["x"].apply(lambda x: abs(length(sub_pos(x, m2)) - dist_dev2_m)).sum()/ group2["x"].count()
 
         cleaned.append([name, avg_spd, ang_momentum,
                         radial_var, scatter, group_rotation,

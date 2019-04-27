@@ -4,7 +4,7 @@ let seg_min_it = 0
 let seg_max_it = 0
 
 let get_it = () => {
-    let current_it = Math.floor(current_time * (seg_max_it - seg_min_it) / 100);
+    let current_it = Math.floor(current_time * (seg_max_it - seg_min_it) / 2000);
     return current_it;
 }
 

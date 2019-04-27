@@ -4,7 +4,7 @@ let circles = [];
 let csv_data = [];
 let min_it = 0
 let max_it = 0
-let current_it = Math.floor(current_time * (max_it - min_it) / 100);
+let current_it = Math.floor(current_time * (max_it - min_it) / 2000);
 function path(current_time) {
     let margin = {
         top: 20, 
@@ -30,7 +30,7 @@ function path(current_time) {
             csv_data = data;
             min_it = d3.min(data, d => Number(d.iteration));
             max_it = d3.max(data, d => Number(d.iteration));
-            current_it = Math.floor(current_time * (max_it - min_it) / 100);
+            current_it = Math.floor(current_time * (max_it - min_it) / 2000);
             x.domain([-2, 2]);
             y.domain([-2, 2]);
 
@@ -73,7 +73,12 @@ function circ_size(d) {
     let min_size  = 3;
     let diff = Math.abs(current_it - d.iteration);
     let percent_off = diff / (max_it - min_it) * 100;
-    return Math.max(0, max_size - max_size * percent_off) + min_size;
+    if (diff < 50 && current_it + 10 > d.iteration) {
+        return Math.max(0, max_size - max_size * percent_off) + min_size;
+    }
+    else {
+        return min_size;
+    }
 }
 
 function color(d) {
@@ -86,12 +91,12 @@ function color(d) {
 }
 
 function update_o() {
-    current_it = Math.floor(current_time * (max_it - min_it) / 100);
-    console.log("current it", current_it)
+    current_it = Math.floor(current_time * (max_it - min_it) / 2000);
+    console.log("current it", current_it, "current time", current_time)
     let svg = d3.select("#vis");
     circles = svg.select("g").selectAll("circle");
     circles.transition()
-        .duration(10)
+        .duration(50)
         .attr("fill", color)
         .attr("r", circ_size)
 }
@@ -104,10 +109,16 @@ function op(it, min, max, time) {
     let min_o  = 7;
     let diff = Math.abs(it - time);
     let percent_off = diff / (max - min) * 100;
-    return Math.max(0, max_o - max_o * percent_off) + min_o;
+    if (diff < 50 && it < time + 15) {
+        return Math.max(0, max_o - max_o * percent_off) + min_o;
+    }
+    else {
+        return min_o;
+    }
 }
 
 function handle_slider() {
+    console.log('handling sider')
     let slider = document.getElementById("slider");
     current_time = slider.value;
     update_o();
@@ -117,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("document loaded")
     path(current_time);
     let slider = document.getElementById("slider");
-    console.log(slider)
     slider.addEventListener("input", handle_slider);
 })
 
