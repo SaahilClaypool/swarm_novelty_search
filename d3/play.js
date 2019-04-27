@@ -5,11 +5,11 @@ function start_timer() {
     if (!RUNNING_ANIMATION) {
         RUNNING_ANIMATION = true; 
         let animation_time = 5000; 
-        let timer_steps = 2000;
+        let timer_steps = 5000;
         let tick_len = animation_time / timer_steps / 1000;
         console.log("starting timer with time of: ", tick_len);
         let slider = document.getElementById("slider");
-        let step_len = 10;
+        let step_len = 35;
         window.setTimeout(() => next_iteration(tick_len, Number(slider.value), step_len), tick_len);
     } else {
         RUNNING_ANIMATION = false;
@@ -17,7 +17,7 @@ function start_timer() {
 }
 
 function next_iteration(timeout_len, current_it, step_len) {
-    let next = (current_it + step_len) % 2000;
+    let next = (current_it + step_len) % 5000;
     let slider = document.getElementById("slider");
     console.log(`slider value is`, current_it);
     slider.value = current_it; 

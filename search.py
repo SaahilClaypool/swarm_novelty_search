@@ -389,8 +389,10 @@ def clean_data(filename, last_n=100):
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
     # search()
-    # obs = Observation([.3, .3, .3, .3])
-    obs = Observation([.61, .59, .01, .3, .01, .3])
+    obs = Observation([.3, .3, .3, .3, .3, .3])
+    # obs = Observation([.61, .59, .01, .3, .01, .3])
+    # obs = Observation([0.1, 0.09, 0.53, 0.49, 0.49, 0.5])
+    # obs = Observation([0.56, 0.46, 0.21, 0.31, 0.21, 0.31])
     obs.run()
     # obs.permute()
     # obs.measures = clean_data("test.csv")

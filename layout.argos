@@ -106,9 +106,9 @@
   <!-- * Visualization * -->
   <!-- ****************** -->
   <visualization>
-      <qt-opengl> 
-       <user_functions label="buzz_qt" /> 
-     </qt-opengl>  
+      <!--<qt-opengl> -->
+       <!--<user_functions label="buzz_qt" /> -->
+     <!--</qt-opengl>  -->
   </visualization>
 
 </argos-configuration>

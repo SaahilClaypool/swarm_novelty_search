@@ -4,7 +4,7 @@ let circles = [];
 let csv_data = [];
 let min_it = 0
 let max_it = 0
-let current_it = Math.floor(current_time * (max_it - min_it) / 2000);
+let current_it = Math.floor(current_time * (max_it - min_it) / 5000);
 function path(current_time) {
     let margin = {
         top: 20, 
@@ -25,12 +25,12 @@ function path(current_time) {
     let y = d3.scaleLinear()
         .rangeRound([height, 0]);
 
-    d3.csv("./bots_test.csv")
+    d3.csv(PREFIX + "/bots_test.csv")
         .then((data) => {
             csv_data = data;
             min_it = d3.min(data, d => Number(d.iteration));
             max_it = d3.max(data, d => Number(d.iteration));
-            current_it = Math.floor(current_time * (max_it - min_it) / 2000);
+            current_it = Math.floor(current_time * (max_it - min_it) / 5000);
             x.domain([-2, 2]);
             y.domain([-2, 2]);
 
@@ -91,7 +91,7 @@ function color(d) {
 }
 
 function update_o() {
-    current_it = Math.floor(current_time * (max_it - min_it) / 2000);
+    current_it = Math.floor(current_time * (max_it - min_it) / 5000);
     console.log("current it", current_it, "current time", current_time)
     let svg = d3.select("#vis");
     circles = svg.select("g").selectAll("circle");

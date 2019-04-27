@@ -6,6 +6,12 @@
         <title>Swarm Robotics Vis</title>
 
     </head>
+    <script>
+        let PREFIX = ".";
+        PREFIX = "clean_1";
+        PREFIX = "disperse";
+        PREFIX = "clean_2";
+    </script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="./path.js"></script>
     <script src="./seg.js"></script>
@@ -43,7 +49,7 @@
         <svg id="vis" height=500 width=1000></svg>
         <svg id="seg" height=500 width=500></svg>
         <div id="slidercontainer" class="slidercontainer">
-            <input type="range" min="1" max="2000" value="50" class="slider" id="slider">
+            <input type="range" min="1" max="5000" value="50" class="slider" id="slider">
         </div>
     </body>
 </html>

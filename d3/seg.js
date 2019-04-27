@@ -4,7 +4,7 @@ let seg_min_it = 0
 let seg_max_it = 0
 
 let get_it = () => {
-    let current_it = Math.floor(current_time * (seg_max_it - seg_min_it) / 2000);
+    let current_it = Math.floor(current_time * (seg_max_it - seg_min_it) / 5000);
     return current_it;
 }
 
@@ -28,7 +28,7 @@ function plot_seg() {
     let y = d3.scaleLinear()
         .rangeRound([height, 0]);
 
-    d3.csv("./bots_clean.csv")
+    d3.csv(PREFIX + "/bots_clean.csv")
         .then((data) => {
             seg_csv_data = data;
             seg_min_it = d3.min(data, d => Number(d.iteration));
@@ -36,8 +36,8 @@ function plot_seg() {
             current_it = get_it();
             x.domain([seg_min_it, seg_max_it]);
             y.domain([
-                d3.min(data, d => Math.min(d.dist_dev, d.dist_dev1, d.dist_dev2)), 
-                d3.max(data, d => Math.max(d.dist_dev, d.dist_dev1, d.dist_dev2)), 
+                d3.min(data, d => Math.min(0, d.dist_dev, d.dist_dev1, d.dist_dev2)), 
+                d3.max(data, d => Math.max(1, d.dist_dev, d.dist_dev1, d.dist_dev2)), 
             ]);
 
             seg_g.append("g")
@@ -100,7 +100,7 @@ function plot_seg() {
             seg_g.append("path")
                 .datum(data)
                 .attr("class","line")
-                .attr("d", seg1);
+                .attr("d", seg2);
 
             seg_g.selectAll(".dot .dev2")
                 .data(data)
