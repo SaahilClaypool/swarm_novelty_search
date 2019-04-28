@@ -151,7 +151,7 @@ class Observation:
         Defined as: std deviation of group distance / total devation of distance
         """
         last: "Measure" = self.measures[-1]
-        return 1 / ((last.dist_dev1 / last.dist_dev + last.dist_dev2 / last.dist_dev) / 2)
+        return -((last.dist_dev1 / last.dist_dev + last.dist_dev2 / last.dist_dev) / 2)
 
     @staticmethod
     def permuteHelper(permuted_weights: List[List[float]]):
@@ -262,7 +262,8 @@ def most_segregated(archive: List["Observation"]):
 def search():
     print("iteration, population, weights, segregation")
     # seed = Observation([.1, .2, .3, .4, .5, .6])
-    seed = Observation([0.5, 0.5, 0.5, .5, .5, .5])
+    # seed = Observation([0.5, 0.5, 0.5, .5, .5, .5])
+    seed = Observation([0.56, 0.46, 0.21, 0.31, 0.21, 0.31])
     population = [seed]
     archive = []
     stop = False
@@ -386,12 +387,12 @@ def clean_data(filename, last_n=100):
 
 if __name__ == "__main__":
     os.system("cd ./Logger/ && sh build.sh")
-    # search()
-    obs = Observation([.3, .3, .3, .3, .3, .3])
+    search()
+    # obs = Observation([.3, .3, .3, .3, .3, .3])
     # obs = Observation([.61, .59, .01, .3, .01, .3])
     # obs = Observation([0.1, 0.09, 0.53, 0.49, 0.49, 0.5])
     # obs = Observation([0.56, 0.46, 0.21, 0.31, 0.21, 0.31])
-    obs.run()
+    # obs.run()
     # obs.permute()
     # obs.measures = clean_data("test.csv")
     # obs.getMeasures()
