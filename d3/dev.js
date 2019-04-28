@@ -12,7 +12,7 @@ function plot_dev() {
     let margin = {
         top: 20, 
         right: 20,
-        bottom: 30,
+        bottom: 50,
         left: 50
     }
 
@@ -43,6 +43,14 @@ function plot_dev() {
             dev_g.append("g")
                 .attr("transform", `translate(0, ${height})`)
                 .call(d3.axisBottom(x))
+                .append("text")
+                .attr("fill", "#000")
+                .attr("y", 20)
+                .attr("x", 240)
+                .attr("dy", "0.71em")
+                .attr("text-anchor", "middle")
+                .attr("font-size", "2em")
+                .text("Iteration");
 
             dev_g.append("g")
                 .call(d3.axisLeft(y))

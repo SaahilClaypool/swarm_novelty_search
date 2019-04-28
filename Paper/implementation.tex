@@ -29,7 +29,7 @@ On each iteration, the current most-fit population is permuted.
 This means that each weight is either increased or decreased and a new population is created from this mutation(discussed further in Section~\ref{sec:time}).
 Then, each of these new populations is simulated in Argos and the locations at each time-step are recorded.
 
-After each simulation, we create a \emph{behavior vector} similar to Brown et. al.\ref{fig:vec}.
+After each simulation, we create a \emph{behavior vector} similar to Brown et. al. (Figure~\ref{fig:vec}).
 This is to summarize the performance of each population so that we can evaluate the novelty of the parameter weights. 
 
 \begin{figure}
@@ -140,7 +140,7 @@ To be a valid measure of segregation, this measure should have the following pro
 Thus, the metric we use is as follows:
 
 $$
-({\frac{DistanceDeviation_1 + DistanceDeviation_2}{2 DistanceDeviation}})^{-1}
+-({\frac{DistanceDeviation_1 + DistanceDeviation_2}{2 DistanceDeviation}})
 $$
 
 Where the distance $DistanceDeviation$ is the standard deviation of all the bots to the mean position of all of the bots, $DistanceDeviation_1$ is the standard deviations of the distance of all the bots to the center of mass of that group, and $DistanceDeviation_2$ is the same for group 2. 
@@ -149,5 +149,5 @@ The reasoning for this measure is that, when the groups are overlapping, the sta
 Thus the term $\frac{DistanceDeviation_1 + DistanceDeviation_2}{2 DistanceDeviation}$ should be roughly equal to 1. 
 But, when the groups are highly segregated, $DistanceDeviation_1$ and $DistanceDeviation_2$ should be smaller than $DistanceDeviation$. 
 Thus, the term should tend towards zero. 
-Because we take the inverse, this measure should get larger when the bots are segregated. 
+Because we take the negative of this value, this measure should get larger when the bots are segregated. 
 We provide validation and discussion on this measure of segregation in the next section.

@@ -10,18 +10,18 @@ SCALER = 100.00
 # Weights
 # W0L: weight for left wheel from sensor 1
 # W0R: weight for right wheel from sensor 1
-W0L = 0.3
-W0R = 0.3
+W0L = 0.56
+W0R = 0.46
 
 # W1L: weight for left wheel from sensor 2
 # W1R: weight for right wheel from sensor 2
-W1L = 0.3
-W1R = 0.3
+W1L = 0.21
+W1R = 0.31
 
 # WBL: weight for left wheel from bias
 # WBR: weight for right wheel from bias
-WBL = 0.3
-WBR = 0.3
+WBL = 0.21
+WBR = 0.31
 # Default to moving slowly in circles
 # WBL = 0.3
 # WBR = 0.2
