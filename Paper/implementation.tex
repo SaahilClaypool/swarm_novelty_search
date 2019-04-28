@@ -113,9 +113,41 @@ In the results, we will discuss the differences discovered by these two approach
 
 \subsubsection{Fitness Search vs Novelty Search}
 
-Why do we think fitness is a better fit for this problem
+Unlike Brown et. al., we do not aim to categorize the complete set of possible behaviors given a limited capability model. 
+Rather, we aim to answer just one question: given this capability model (4 to 6 neuron network, differential drive motor, binary line of sight, same-swarmm detection) is the behavior of segregation possible. 
+Thus, a novelty is not necessarily the best fitness function - novelty is useful for ensuring our algorithm covers all parts of the search space, but that is not our aim. 
+Thus we also implement a second search that replaces novelty with a traditional fitness function.
+The semantics of the algorithm are unchanged. 
+The only change is as follows: rather than selecting the most unique population to permutate in the next generation, we instead choose the population which exhibited the highest levels of segregation.
+
 
 \subsection{Segregation Metrics}
 
-What does it mean to be segregated? 
+To evaluate which population exhibited the highest levels of segregation, we created a quantifiable measure of segregation. 
+To be a valid measure of segregation, this measure should have the following properties: 
+\begin{itemize}
+    \item Higher segregation should correspond to higher segregation measure scores
 
+        For ease of interpretability, the measure should \emph{maximize} segregation when two groups are completely split.
+
+    \item Groups with low segregation scores should correspond to groups that are indistinguishable from each other
+
+        If two groups were to not segregate, that would likely mean they were interspersed evenly within each other. 
+        Similarly, if two groups are interspersed evenly within each other, they are not segregated. 
+
+\end{itemize}
+
+Thus, the metric we use is as follows:
+
+$$
+({\frac{DistanceDeviation_1 + DistanceDeviation_2}{2 DistanceDeviation}})^{-1}
+$$
+
+Where the distance $DistanceDeviation$ is the standard deviation of all the bots to the mean position of all of the bots, $DistanceDeviation_1$ is the standard deviations of the distance of all the bots to the center of mass of that group, and $DistanceDeviation_2$ is the same for group 2. 
+
+The reasoning for this measure is that, when the groups are overlapping, the standard deviation within a single group should be the same as the standard deviation of the entire set of robots. 
+Thus the term $\frac{DistanceDeviation_1 + DistanceDeviation_2}{2 DistanceDeviation}$ should be roughly equal to 1. 
+But, when the groups are highly segregated, $DistanceDeviation_1$ and $DistanceDeviation_2$ should be smaller than $DistanceDeviation$. 
+Thus, the term should tend towards zero. 
+Because we take the inverse, this measure should get larger when the bots are segregated. 
+We provide validation and discussion on this measure of segregation in the next section.
