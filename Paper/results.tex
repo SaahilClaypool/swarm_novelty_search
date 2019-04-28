@@ -62,11 +62,88 @@ As expected, when the bots look visually segregated, the intra-group standard de
     \label{fig:final_pos_1}
 \end{figure}
 
+\subsection{Dispersion test}
+\label{sec:dispersion}
+
+To validate our segregation metrics, we hand-coded a population that would create high dispersal. 
+We did this by setting the weights to $[.3, .3, .3, .3, .3, .3]$.
+Using these weights, the bots would \emph{always} move straight forward at a slow speed.
+The results for this format can be seen in Figures~\ref{fig:final_dev_d}, \ref{fig:final_seg_d}, and \ref{fig:final_pos_d} depict the results in a similar format to the above images. 
+As seen here, the bots move straight until they reach the edge of the map, at which point they continue to move straight but are largely stationary. 
+Thus, the standard deviation in the positions (Figure\ref{fig:final_dev_d}) remains fairly uniform across all of the clusters - there is no extra clustering between groups of the same type. 
+The segregation score depicted in \ref{fig:final_seg_d} also remains very low, reflecting the low preference for segregation exhibited by this population.
+This serves as a sort of validation that our segregation metric is able to descriminate against poorly segregated populations, and that our capability can still exhibit some forms of segregations.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_dev_d.png}
+    \caption{Standard deviations of inter and intra-group distances for each cluster of high-dispersal population}
+    \label{fig:final_dev_d}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_seg_d.png}
+    \caption{Segregation score of the population at each time step for high-dispersal population}
+    \label{fig:final_seg_d}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{imgs/final_place_d.png}
+    \caption{Positions at the end of the simulation for high dispersal population}
+    \label{fig:final_pos_d}
+\end{figure}
+
+
+
 \subsection{Segregation with 6-neuron capability model}
 \label{sec:seg6}
+
 
 
 \subsection{Fitness search performance}
 \label{sec:fitness}
 
-NOTE: clean2 results are the fitness search results for 4 weights
+After running the experiments above, we determined that a novelty search is not the most efficient technique for our problem. 
+Where a novelty search worked well for Brown et. al. who were trying to categorize \emph{all} possible behaviors exhibited by the capability model, we were only interested in determining one behavior - segregation.
+And, as we already determined a valid measure of segregation for our model, we were able to refit our evolutionary search using a fitness function that favors segregation instead of novelty. 
+Thus, at each generation of the evolutionary search, we sort the new populations by their segregation scores. 
+Then, rather than permuting the most novel population from these new populations, we instead permute the most segregated population.
+
+After 100 generations, the most segregated population has the weights $[0.56, 0.46, 0.21, 0.31]$, which is slightly different from the most segregated population discovered by the original novelty search. 
+The behavior of this population is summarized in the above format in Figures~\ref{fig:final_dev_2}, \ref{fig:final_seg_2}, and \ref{fig:final_pos_2}. 
+As seen in Figure~\ref{fig:final_seg_2}, the segregation for this population is high, peaking at around $-0.6$, which is slightly higher than the highest segregation exhibited by the best novely search result. 
+
+We also plot the highest segregation of each generation in Figure~\ref{fig:gen_fitness}. 
+In general, each generation is able to find a better segregating population than the previous, and this seems to have diminishing returns as the simulation goes on\footnote{Note that this function is roughly bounded between zero and one, so it must have asymptotic functions over time}. 
+Also, as seen in the previous sections, the segregation scores for the populations is not very stable, and it can fluctuate greatly between each time step for a single population. 
+To generate this figure, we took the last time step's segregation score, which may not have been the highest segregation score exhibited over the course of that population's runtime. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_dev_2.png}
+    \caption{Standard deviations of inter and intra-group distances for each robot in fitness search population}
+    \label{fig:final_dev_2}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_seg_2.png}
+    \caption{Segregation score of the population at each time step in fitness search population}
+    \label{fig:final_seg_2}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{imgs/final_place_2.png}
+    \caption{Positions of bots at the location of the highest clustering in fitness search population}
+    \label{fig:final_pos_2}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{imgs/fitness_search.png}
+    \caption{Maximum fitness observed in each generation}
+    \label{fig:final_pos_2}
+\end{figure}
