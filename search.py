@@ -158,7 +158,7 @@ class Observation:
         """
         takes in each indiviudal weight, permuted as [weight + step, weight - step, weight],
         returns all permutations of these elements (all step directions).
-        Note: results  in 3^N combinations (729 for 6 weights)
+        Note: results  in 3^N combinations (729 for 6 weights
         """
         if (len(permuted_weights) == 1):
             return [[i] for i in permuted_weights[0]]
@@ -370,9 +370,9 @@ def clean_data(filename, last_n=100):
             lambda bot: bot["id"] % 2 == 1, axis=1)]
 
         dist_dev = iteration["x"].apply(lambda x: length(sub_pos(x, m))).std()
-        m1 = (group1["px"].mean(), iteration["py"].mean())
+        m1 = (group1["px"].mean(), group1["py"].mean())
         dist_dev1 = group1["x"].apply(lambda x: length(sub_pos(x, m1))).std()
-        m2 = (group2["px"].mean(), iteration["py"].mean())
+        m2 = (group2["px"].mean(), group2["py"].mean())
         dist_dev2 = group2["x"].apply(lambda x: length(sub_pos(x, m2))).std()
 
         cleaned.append(Measure(avg_spd, ang_momentum,

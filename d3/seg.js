@@ -36,8 +36,8 @@ function plot_seg() {
             current_it = get_it();
             x.domain([seg_min_it, seg_max_it]);
             y.domain([
-                d3.min(data, d => Math.min(0, d.dist_dev, d.dist_dev1, d.dist_dev2)), 
-                d3.max(data, d => Math.max(1, d.dist_dev, d.dist_dev1, d.dist_dev2)), 
+                d3.min(data, d => Math.min(d.segregation)), 
+                d3.max(data, d => Math.max(d.segregation)), 
             ]);
 
             seg_g.append("g")
@@ -52,7 +52,8 @@ function plot_seg() {
                 .attr("y", 6)
                 .attr("dy", "0.71em")
                 .attr("text-anchor", "end")
-                .text("Distance Deviation");
+                .attr("font-size", "2em")
+                .text("Segregation Score");
 
             let total_seg  = d3.line()
                 .x((d, _i) => x(d.iteration))
@@ -70,48 +71,8 @@ function plot_seg() {
                     .attr("class", "dot")
                     .attr("class", "distdev")
                     .attr("cx", d => x(d.iteration))
-                    .attr("cy", d => y(d.dist_dev))
+                    .attr("cy", d => y(d.segregation))
                     .attr("r", seg_size)
-
-            let seg1  = d3.line()
-                .x((d, _i) => x(d.iteration))
-                .y((d, _i) => y(d.dist_dev1))
-                .curve(d3.curveMonotoneX);
-                
-            seg_g.append("path")
-                .datum(data)
-                .attr("class","line")
-                .attr("d", seg1);
-
-            seg_g.selectAll(".dot .dev1")
-                .data(data)
-                .enter().append("circle")
-                    .attr("class", "dot")
-                    .attr("class", "dev1")
-                    .attr("cx", d => x(d.iteration))
-                    .attr("cy", d => y(d.dist_dev1))
-                    .attr("r", seg_size)
-
-            let seg2  = d3.line()
-                .x((d, _i) => x(d.iteration))
-                .y((d, _i) => y(d.dist_dev1))
-                .curve(d3.curveMonotoneX);
-                
-            seg_g.append("path")
-                .datum(data)
-                .attr("class","line")
-                .attr("d", seg2);
-
-            seg_g.selectAll(".dot .dev2")
-                .data(data)
-                .enter().append("circle")
-                    .attr("class", "dot")
-                    .attr("class", "dev2")
-                    .attr("cx", d => x(d.iteration))
-                    .attr("cy", d => y(d.dist_dev2))
-                    .attr("r", seg_size)
-
-
                     
         })
 }
