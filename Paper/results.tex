@@ -1,7 +1,7 @@
 \section{Results}
 \label{sec:res}
 
-This section is structured as folows: First, Section~\ref{sec:seg4} demonstrates the level of segregation that can occur given our limited capability model with 4 neurons; Section~\ref{sec:seg6} demonstrates the behavior of a 6 neuron model; finally, Section~\ref{sec:fitness} discusses the performance our fitness search model. 
+This section is structured as follows: First, Section~\ref{sec:seg4} demonstrates the level of segregation that can occur given our limited capability model with 4 neurons; Section~\ref{sec:seg6} demonstrates the behavior of a 6 neuron model; finally, Section~\ref{sec:fitness} discusses the performance our fitness search model. 
 
 
 \subsection{Segregation with 4-neuron capability model}
@@ -14,12 +14,12 @@ During each generation, we tested \emph{all permutations} of the 4 neuron weight
 At the end of this process, the population which demonstrated the highest segregation score had the weights $[0.61, 0.59, 0.01, 0.3]$. 
 This can be interpreted as follows: when bot \emph{A} sees bot \emph{B} of the same type, it uses the first weights 0.61 and 0.59 to control its wheels.
 This results in bot \emph{A} quickly moving generally straight (with a slight turn) towards the bot \emph{B}. 
-When bot \emph{A} sees eithe nothing \emph{or} a bot of any other type, then the bot will use the second set of weights, 0.1, 0.3, to control its left and right wheels respectivly. 
+When bot \emph{A} sees either nothing \emph{or} a bot of any other type, then the bot will use the second set of weights, 0.1, 0.3, to control its left and right wheels respectively. 
 This results in the bot mostly spinning in place until it sees a bot of the same type. 
 
 This behavior can be seen in Figure~\ref{fig:init_pos_1} which depicts the positions of the bots over the course of the simulation. 
 The colored depict the location of the bots at the start of the simulation and the light colored paths depict the locations of where the bots will travel. 
-As seen here, the bots are evenly dispered at the start of the simulation, and thus not segregated.
+As seen here, the bots are evenly dispersed at the start of the simulation, and thus not segregated.
 The circling behavior can be seen at locations $X= 0$, $Y= -1.5$. 
 The paths of the bots are drawn with low opacity, so the dark circle here demonstrates that a bot spent a great deal of time circling this location. 
 
@@ -33,12 +33,12 @@ The paths of the bots are drawn with low opacity, so the dark circle here demons
 
 Figure~\ref{fig:final_seg_1} depicts our calculated segregation score for this population during each iteration. 
 The highest segregation can be seen around step 2,400. 
-The three values used to calulate this metric over the same time period are shown in Figure~\ref{fig:final_dev_1}. 
+The three values used to calculate this metric over the same time period are shown in Figure~\ref{fig:final_dev_1}. 
 The line represent the standard deviation of the distances from the bots to the metroid of the cluster for each swarm with red line corresponding to the red group, the blue corresponding to the blue group, and the gray line corresponding to the total standard deviation of distances to the center of all bots. 
-The dark colored dot depcits the current time in our animation~\footnote{We use a an interactive animation to depict these results. github:
+The dark colored dot depicts the current time in our animation~\footnote{We use an interactive animation to depict these results. Github:
 
 \url{http://tiny.cc/e4hv5y}}.
-Figure~\ref{fig:final_pos_1} demonstates the location of the bots during this point of highest segregation. 
+Figure~\ref{fig:final_pos_1} demonstrates the location of the bots during this point of highest segregation. 
 As expected, when the bots look visually segregated, the intra-group standard deviations of their positions are low and the inter-group deviations are high (Figure~\ref{fig:final_dev_1}), and this corresponds to a high numeric value of segregation (Figure~\ref{fig:final_seg_1}). 
 
 \begin{figure}
@@ -72,7 +72,7 @@ The results for this format can be seen in Figures~\ref{fig:final_dev_d}, \ref{f
 As seen here, the bots move straight until they reach the edge of the map, at which point they continue to move straight but are largely stationary. 
 Thus, the standard deviation in the positions (Figure\ref{fig:final_dev_d}) remains fairly uniform across all of the clusters - there is no extra clustering between groups of the same type. 
 The segregation score depicted in \ref{fig:final_seg_d} also remains very low, reflecting the low preference for segregation exhibited by this population.
-This serves as a sort of validation that our segregation metric is able to descriminate against poorly segregated populations, and that our capability can still exhibit some forms of segregations.
+This serves as a sort of validation that our segregation metric is able to discriminate against poorly segregated populations, and that our capability can still exhibit some forms of segregations.
 
 \begin{figure}
     \centering
@@ -113,7 +113,7 @@ Then, rather than permuting the most novel population from these new populations
 
 After 100 generations, the most segregated population has the weights $[0.56, 0.46, 0.21, 0.31]$, which is slightly different from the most segregated population discovered by the original novelty search. 
 The behavior of this population is summarized in the above format in Figures~\ref{fig:final_dev_2}, \ref{fig:final_seg_2}, and \ref{fig:final_pos_2}. 
-As seen in Figure~\ref{fig:final_seg_2}, the segregation for this population is high, peaking at around $-0.6$, which is slightly higher than the highest segregation exhibited by the best novely search result. 
+As seen in Figure~\ref{fig:final_seg_2}, the segregation for this population is high, peaking at around $-0.6$, which is slightly higher than the highest segregation exhibited by the best novelty search result. 
 
 We also plot the highest segregation of each generation in Figure~\ref{fig:fitness_search}. 
 In general, each generation is able to find a better segregating population than the previous, and this seems to have diminishing returns as the simulation goes on\footnote{Note that this function is roughly bounded between zero and one, so it must have asymptotic functions over time}. 

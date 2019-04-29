@@ -6,7 +6,7 @@
 We use Argos to virtually test different neural network weight configurations, as described in Figure~\ref{fig:nnet}. 
 We create a BUZZ template file with the weights defined as the top as \texttt{W1 = \{W1\}} etc.
 This allows our python program (discussed in Section~\ref{sec:nov}) to replace these values for each population.
-For exaple, if the current population has the weights \texttt{[0.1, 0.2, 0.3, 0.4, 0.5, 0.6]}, then the first weight in this file will be replaced with 0.1, the second weight will be replaced with 0.3 and so on. 
+For example, if the current population has the weights \texttt{[0.1, 0.2, 0.3, 0.4, 0.5, 0.6]}, then the first weight in this file will be replaced with 0.1, the second weight will be replaced with 0.3 and so on. 
 Argos will then be able to use this newly created buzz controller to control the behavior for each robot. 
 
 The `'neural network'` code is implemented with if statements. 
@@ -30,6 +30,7 @@ This means that each weight is either increased or decreased and a new populatio
 Then, each of these new populations is simulated in Argos and the locations at each time-step are recorded.
 
 After each simulation, we create a \emph{behavior vector} similar to Brown et. al. (Figure~\ref{fig:vec}).
+
 This is to summarize the performance of each population so that we can evaluate the novelty of the parameter weights. 
 
 \begin{figure}
@@ -73,11 +74,11 @@ def search():
 \subsection{Time Complexity}
 \label{sec:time}
 
-The obstacle in our implementation is the time complexity involved in the evoluationary search.
-By increasing the number of weights in our model from 4 to 6, we increased the search space from 4 dimmensions to 6. 
-In our original implemntation, we were fully permutating each weight vector.
+The obstacle in our implementation is the time complexity involved in the evolutionary search.
+By increasing the number of weights in our model from 4 to 6, we increased the search space from 4 dimensions to 6. 
+In our original implementation, we were fully permuting each weight vector.
 That is, for each population we would test \emph{all possible combinations} of increased or decreasing the weights in the vector. 
-For example, if the weights of a two dimmensional vector were \texttt{[.1, .2]}, and the step size\footnote{We use a step size of .1, and bound each weight between 0 and 1.}, then a single permutation of this population would create the following new populations
+For example, if the weights of a two dimensional vector were \texttt{[.1, .2]}, and the step size\footnote{We use a step size of .1, and bound each weight between 0 and 1.}, then a single permutation of this population would create the following new populations
 \begin{itemize}
     \item \texttt{[.0, .1]}
     \item \texttt{[.0, .2]}
@@ -97,9 +98,9 @@ Each population takes roughly 10 to 30 seconds to simulate in our implementation
 
 Thus, we needed to adjust our implementation to reduce this time complexity. 
 We did this with two different approaches. 
-Our first approach was to return to a 4 weight model, but change the semantics of our simulation such that weights 1 and 2 were used only if a robot of the \emph{same} time was visible directly infront of the current robot.
-Otherwise, the other two weights would be used whether there was no robot infront of the current robot, or a robot of the other type. 
-This made the bots effectively blind to bots of the wrong type, but from our experimenting, it seems that well-segregated swarms would often just turn away from swarms of the oher type.
+Our first approach was to return to a 4 weight model, but change the semantics of our simulation such that weights 1 and 2 were used only if a robot of the \emph{same} time was visible directly in front of the current robot.
+Otherwise, the other two weights would be used whether there was no robot in front of the current robot, or a robot of the other type. 
+This made the bots effectively blind to bots of the wrong type, but from our experimenting, it seems that well-segregated swarms would often just turn away from swarms of the other type.
 Thus, the swarms of the other type would not be in `line of sight' for more than a single time step, and thus the weights controlling the behavior when a bot of the other type is visible were rarely used. 
 So, we combined these weights with the weights controlling the behavior when no bot is visible. 
 
@@ -114,11 +115,11 @@ In the results, we will discuss the differences discovered by these two approach
 \subsubsection{Fitness Search vs Novelty Search}
 
 Unlike Brown et. al., we do not aim to categorize the complete set of possible behaviors given a limited capability model. 
-Rather, we aim to answer just one question: given this capability model (4 to 6 neuron network, differential drive motor, binary line of sight, same-swarmm detection) is the behavior of segregation possible. 
+Rather, we aim to answer just one question: given this capability model (4 to 6 neuron network, differential drive motor, binary line of sight, same-swarm detection) is the behavior of segregation possible. 
 Thus, a novelty is not necessarily the best fitness function - novelty is useful for ensuring our algorithm covers all parts of the search space, but that is not our aim. 
 Thus we also implement a second search that replaces novelty with a traditional fitness function.
 The semantics of the algorithm are unchanged. 
-The only change is as follows: rather than selecting the most unique population to permutate in the next generation, we instead choose the population which exhibited the highest levels of segregation.
+The only change is as follows: rather than selecting the most unique population to permute in the next generation, we instead choose the population which exhibited the highest levels of segregation.
 
 
 \subsection{Segregation Metrics}
