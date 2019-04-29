@@ -66,7 +66,7 @@ As expected, when the bots look visually segregated, the intra-group standard de
 \label{sec:dispersion}
 
 To validate our segregation metrics, we hand-coded a population that would create high dispersal. 
-We did this by setting the weights to $[.3, .3, .3, .3, .3, .3]$.
+We did this by setting the weights to $[0.3, 0.3, 0.3, 0.3, 0.3, 0.3]$.
 Using these weights, the bots would \emph{always} move straight forward at a slow speed.
 The results for this format can be seen in Figures~\ref{fig:final_dev_d}, \ref{fig:final_seg_d}, and \ref{fig:final_pos_d} depict the results in a similar format to the above images. 
 As seen here, the bots move straight until they reach the edge of the map, at which point they continue to move straight but are largely stationary. 
@@ -115,7 +115,7 @@ After 100 generations, the most segregated population has the weights $[0.56, 0.
 The behavior of this population is summarized in the above format in Figures~\ref{fig:final_dev_2}, \ref{fig:final_seg_2}, and \ref{fig:final_pos_2}. 
 As seen in Figure~\ref{fig:final_seg_2}, the segregation for this population is high, peaking at around $-0.6$, which is slightly higher than the highest segregation exhibited by the best novely search result. 
 
-We also plot the highest segregation of each generation in Figure~\ref{fig:gen_fitness}. 
+We also plot the highest segregation of each generation in Figure~\ref{fig:fitness_search}. 
 In general, each generation is able to find a better segregating population than the previous, and this seems to have diminishing returns as the simulation goes on\footnote{Note that this function is roughly bounded between zero and one, so it must have asymptotic functions over time}. 
 Also, as seen in the previous sections, the segregation scores for the populations is not very stable, and it can fluctuate greatly between each time step for a single population. 
 To generate this figure, we took the last time step's segregation score, which may not have been the highest segregation score exhibited over the course of that population's runtime. 
@@ -145,5 +145,5 @@ To generate this figure, we took the last time step's segregation score, which m
     \centering
     \includegraphics[width=\linewidth]{imgs/fitness_search.png}
     \caption{Maximum fitness observed in each generation}
-    \label{fig:final_pos_2}
+    \label{fig:fitness_search}
 \end{figure}

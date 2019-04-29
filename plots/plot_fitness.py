@@ -35,5 +35,7 @@ for it, data in its:
     y.append(max_seg)
 
 plt.scatter(x, y)
+plt.xlabel("Generation")
+plt.ylabel("Segregation Score")
 plt.savefig("/home/saahil/Documents/swarm_intelligence/swarm_novelty_search/Paper/imgs/fitness_search.png")
 plt.show()
