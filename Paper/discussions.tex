@@ -1,2 +1,24 @@
 \section{Discussion}
 \label{sec:disc}
+
+We implement a setup similar to Brown et. al.~\cite{c1}, but we extend their limited capability model by allowing the robots in our simulations to determine the difference between like and unlike robots. 
+Specifically, we investigate if this limited capability model can exhibit the behavior of segregation.
+That is, given that robots are assigned to individual swarms, can these swarms display distinctly separate clusters. 
+
+We implement this novelty search algorithm that leverages ARGOS for simulations.
+In addition, we explore the performance of novelty search compared with a traditional evolutionary search algorithm using our segregation metric as a measure of fitness. 
+We find that the fitness algorithm is able to find weights resulting in slightly higher levels of swarm segregations. 
+
+Our work is clearly able to detect that clustering can occur given the differential drive motors and the limited capability model, but we are yet unsure how reliably the evolutionary search algorithm we implement can detect the true \emph{best} weights to achieve segregation.
+This is because of the segregation metric we have does not appear to be stable. 
+As seen in Figures~\ref{fig:final_seg_1} and \ref{fig:final_pos_1}, even when visually the swarms are segregated, small changes can cause our segregation metric to fluctuate drastically. 
+This could cause the search algorithm to select the incorrect population to permutate in the next generation. 
+Further, the implemented search algorithm does not take into account stability of segregated clusters, but rather just the segregation at the last time step. 
+This also could be modified to take into account cluster stability, answering the question of whether truly stable segregated swarm clusters can form. 
+
+Our segregation metric also does not allows for a wide range of behavior discovery. 
+For example, if two swarms were to segregate along a single line, our measure would evaluate this as low clustering because it relies on the standard deviations of the distances to the center.
+This means that our clustering metric is only able to account of circular, distant segregated clusters. 
+As mentioned in the introduction, this metric could be replaced with a more complicated metric such as convex hull, or the maximum distance margin between the two clusters as is used in Support Vector Machine (SVM)
+
+TODO add results using 40 robots (or more)

@@ -100,6 +100,60 @@ This serves as a sort of validation that our segregation metric is able to discr
 \subsection{Segregation with 6-neuron capability model}
 \label{sec:seg6}
 
+We also run our novelty search with 6 weights, but with the copmlexity of the permutate function reduced. 
+This allows us to search the 6 dimmensional space (albiet to a lesser degree). 
+The resulting weights discovered for segregating these swarms are $[0.55, 0.47, 0.22, 0.33, 0.2, 0.3]$, which are very similar to the weights discovered for the 4 weight model.
+The behevior for these weights is summarized in Figures~\ref{fig:final_dev_6}, \ref{fig:final_seg_6}, and \ref{fig:final_pos_6}, and it closely matches the behavior of the 4 neoron model. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_dev_6.png}
+    \caption{Standard deviations of inter and intra-group distances for each cluster of 6 neuron model}
+    \label{fig:final_dev_6}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_seg_6.png}
+    \caption{Segregation score of the population at each time step for 6 neuron model}
+    \label{fig:final_seg_6}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{imgs/final_place_6.png}
+    \caption{Positions at the end of the simulation for 6 neuron model}
+    \label{fig:final_pos_6}
+\end{figure}
+
+\subsection{More robots}
+\label{sec:more}
+
+We also test to see whether the robots will perform the same level of clustering if there are more than 20 bots in the arena, but they still use the same weights discovered from a 20 bot simulation. 
+This is useful in determining if the discovered weights can be generalized to other populations or scenerios. 
+We test this by adding 50 robots the ring and performing the same simulation as above. 
+The results from this simulation can be seen in Figures~\ref{fig:final_dev_50}, \ref{fig:final_seg_50}, and \ref{fig:final_pos_50}, and it closely matches the behavior of the 4 neuron model.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_dev_50.png}
+    \caption{Standard deviations of inter and intra-group distances for each cluster of 50 robots}
+    \label{fig:final_dev_50}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.5cm]{imgs/final_seg_50.png}
+    \caption{Segregation score of the population at each time step for 50 robots}
+    \label{fig:final_seg_50}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{imgs/final_place_50.png}
+    \caption{Positions at the end of the simulation for 50 robots}
+    \label{fig:final_pos_50}
+\end{figure}
 
 
 \subsection{Fitness search performance}
@@ -147,3 +201,4 @@ To generate this figure, we took the last time step's segregation score, which m
     \caption{Maximum fitness observed in each generation}
     \label{fig:fitness_search}
 \end{figure}
+
